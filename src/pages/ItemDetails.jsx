@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import EthImage from "../images/ethereum.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
 
 const ItemDetails = () => {
+  const { nftId } = useParams();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -25,7 +27,7 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>Rainbow Style #194</h2>
+                  <h2>Rainbow Style {nftId ? `#${nftId}` : "#194"}</h2>
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
