@@ -14,6 +14,7 @@ function App() {
   const [apiData, setApiData] = useState({
     HC_data: [],
     NI_data: [],
+    TS_data: [],
   });
 
   // This effect loads the Hot Collections and New Items data together so every section can reuse the same payload.
@@ -22,12 +23,15 @@ function App() {
 
     const fetchCollections = async () => {
       try {
-        const [hotCollectionsResponse, newItemsResponse] = await Promise.all([
+        const [hotCollectionsResponse, newItemsResponse, topSellersResponse] = await Promise.all([
           axios.get(
             "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
           ),
           axios.get(
             "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
+          ),
+          axios.get(
+            "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers"
           ),
         ]);
 
@@ -35,6 +39,7 @@ function App() {
           setApiData({
             HC_data: hotCollectionsResponse.data,
             NI_data: newItemsResponse.data,
+            TS_data: topSellersResponse.data,
           });
         }
       } catch (error) {
@@ -63,6 +68,7 @@ function App() {
             <Home
               HC_data={apiData.HC_data}
               NI_data={apiData.NI_data}
+              TS_data={apiData.TS_data}
               loading={loading_api}
             />
           }
