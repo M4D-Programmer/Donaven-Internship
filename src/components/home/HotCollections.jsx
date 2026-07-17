@@ -38,9 +38,17 @@ const HotCollections = ({ api_Data, loading }) => {
     instanceRef.current?.next();
   };
 
-  if (api_Data) {
-    setCollections(api_Data);
-  }
+  // This keeps the local carousel state in sync when the parent passes in fresh API data.
+  useEffect(() => {
+    setCollections(api_Data || []);
+  }, [api_Data]);
+
+  // This refreshes Keen Slider after the cards render so the carousel measures correctly.
+  useEffect(() => {
+    if (!loading && instanceRef.current) {
+      instanceRef.current.update();
+    }
+  }, [collections, loading, instanceRef]);
 
   return (
     <section id="section-collections" className="no-bottom">

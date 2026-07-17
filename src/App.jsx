@@ -9,40 +9,73 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 function App() {
+  // This shared state stores the homepage data fetched once from both APIs.
+  const [loading_api, setLoading_api] = useState(true);
+  const [apiData, setApiData] = useState({
+    HC_data: [],
+    NI_data: [],
+  });
 
-const [loading_api, setLoading_api] = useState(true);
-  const fetchCollections = async () => {
-    try {
-      const { HC_data } = await axios.get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
-      );
-      const { NI_data } = await axios.get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
-      );
-    } catch (error) {
-      console.error("Failed to fetch hot collections", error);
-    } finally {
-      setLoading_api(false);
-    }
-    return { HC_data, NI_data };
-  };
+  // This effect loads the Hot Collections and New Items data together so every section can reuse the same payload.
+  useEffect(() => {
+    let isMounted = true;
 
-  const { HC_data, NI_data } =fetchCollections();
+    const fetchCollections = async () => {
+      try {
+        const [hotCollectionsResponse, newItemsResponse] = await Promise.all([
+          axios.get(
+            "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
+          ),
+          axios.get(
+            "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
+          ),
+        ]);
 
+        if (isMounted) {
+          setApiData({
+            HC_data: hotCollectionsResponse.data,
+            NI_data: newItemsResponse.data,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch homepage data", error);
+      } finally {
+        if (isMounted) {
+          setLoading_api(false);
+        }
+      }
+    };
 
+    fetchCollections();
 
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <Router>
       <Nav />
       <Routes>
-        <Route path="/" element={<Home HC_data={HC_data} NI_data={NI_data} loading={loading_api} />} />
+        <Route
+          path="/"
+          element={
+            <Home
+              HC_data={apiData.HC_data}
+              NI_data={apiData.NI_data}
+              loading={loading_api}
+            />
+          }
+        />
         <Route path="/explore" element={<Explore />} />
         <Route path="/author" element={<Author />} />
         <Route path="/authors" element={<Author />} />
         <Route path="/authors/:authorId" element={<Author />} />
-        <Route path="/item-details" element={<ItemDetails />} />
-        <Route path="/item-details/:nftId" element={<ItemDetails />} />
+        <Route path="/item-details" element={<ItemDetails items={apiData.NI_data} />} />
+        <Route
+          path="/item-details/:nftId"
+          element={<ItemDetails items={apiData.NI_data} />}
+        />
       </Routes>
       <Footer />
     </Router>
