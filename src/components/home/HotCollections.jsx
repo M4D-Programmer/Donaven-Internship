@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import Skeleton from "../UI/Skeleton";
 
-const HotCollections = () => {
+const HotCollections = ({ api_Data, loading }) => {
   const [collections, setCollections] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
@@ -39,22 +38,17 @@ const HotCollections = () => {
     instanceRef.current?.next();
   };
 
+  // This keeps the local carousel state in sync when the parent passes in fresh API data.
   useEffect(() => {
-    const fetchCollections = async () => {
-      try {
-        const { data } = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
-        );
-        setCollections(data);
-      } catch (error) {
-        console.error("Failed to fetch hot collections", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    setCollections(api_Data || []);
+  }, [api_Data]);
 
-    fetchCollections();
-  }, []);
+  // This refreshes Keen Slider after the cards render so the carousel measures correctly.
+  useEffect(() => {
+    if (!loading && instanceRef.current) {
+      instanceRef.current.update();
+    }
+  }, [collections, loading, instanceRef]);
 
   return (
     <section id="section-collections" className="no-bottom">
