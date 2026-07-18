@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import Skeleton from "../UI/Skeleton";
+import Card from "../UI/Card";
 
 const HotCollections = ({ api_Data, loading }) => {
   const [collections, setCollections] = useState([]);
@@ -107,34 +106,8 @@ const HotCollections = ({ api_Data, loading }) => {
             ) : (
               <div ref={sliderRef} className="keen-slider">
                 {collections.map((item) => (
-                  <div className="keen-slider__slide" key={item.id}>
-                    <div className="nft_coll">
-                      <div className="nft_wrap">
-                        <Link to={`/item-details/${item.nftId}`}>
-                          <img
-                            src={item.nftImage}
-                            className="lazy img-fluid"
-                            alt={item.title}
-                          />
-                        </Link>
-                      </div>
-                      <div className="nft_coll_pp">
-                        <Link to={`/authors/${item.authorId}`}>
-                          <img
-                            className="lazy pp-coll"
-                            src={item.authorImage}
-                            alt={item.title}
-                          />
-                        </Link>
-                        <i className="fa fa-check"></i>
-                      </div>
-                      <div className="nft_coll_info">
-                        <Link to={`/item-details/${item.nftId}`}>
-                          <h4>{item.title}</h4>
-                        </Link>
-                        <span>ERC-{item.code}</span>
-                      </div>
-                    </div>
+                  <div className="keen-slider__slide" key={item.id || item.nftId}>
+                    <Card item={item} variant="collections" />
                   </div>
                 ))}
               </div>

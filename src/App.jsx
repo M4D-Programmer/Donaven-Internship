@@ -15,6 +15,7 @@ function App() {
     HC_data: [],
     NI_data: [],
     TS_data: [],
+    EXPLORE_data: [],
   });
 
   // This effect loads the Hot Collections and New Items data together so every section can reuse the same payload.
@@ -23,7 +24,7 @@ function App() {
 
     const fetchCollections = async () => {
       try {
-        const [hotCollectionsResponse, newItemsResponse, topSellersResponse] = await Promise.all([
+        const [hotCollectionsResponse, newItemsResponse, topSellersResponse, exploreResponse] = await Promise.all([
           axios.get(
             "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
           ),
@@ -33,6 +34,9 @@ function App() {
           axios.get(
             "https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers"
           ),
+          axios.get(
+            "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore"
+          ),
         ]);
 
         if (isMounted) {
@@ -40,6 +44,7 @@ function App() {
             HC_data: hotCollectionsResponse.data,
             NI_data: newItemsResponse.data,
             TS_data: topSellersResponse.data,
+            EXPLORE_data: exploreResponse.data,
           });
         }
       } catch (error) {
@@ -73,7 +78,10 @@ function App() {
             />
           }
         />
-        <Route path="/explore" element={<Explore />} />
+        <Route
+          path="/explore"
+          element={<Explore apiData={apiData.EXPLORE_data} loading={loading_api} />}
+        />
         <Route path="/author" element={<Author />} />
         <Route path="/authors" element={<Author />} />
         <Route path="/authors/:authorId" element={<Author />} />
