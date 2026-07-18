@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import Card from "../UI/Card";
 import Skeleton from "../UI/Skeleton";
 
@@ -25,45 +24,16 @@ const ExploreItems = ({ apiData = [], loading: loadingProp = false }) => {
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
-    if (Array.isArray(apiData) && apiData.length > 0) {
-      setItems(apiData);
-      setLoading(false);
-      return;
-    }
-
-    let isMounted = true;
-
-    const fetchExploreItems = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore"
-        );
-
-        if (isMounted) {
-          setItems(response.data || []);
-        }
-      } catch (error) {
-        console.error("Failed to fetch explore items", error);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchExploreItems();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [apiData]);
+    setItems(apiData || []);
+    setLoading(Boolean(loadingProp && !(Array.isArray(apiData) && apiData.length > 0)));
+  }, [apiData, loadingProp]);
 
   useEffect(() => {
     const interval = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(interval);
   }, []);
-
+ 
+  //filter items based on sortBy value
   const filteredItems = useMemo(() => {
     let result = [...items];
 
@@ -80,7 +50,7 @@ const ExploreItems = ({ apiData = [], loading: loadingProp = false }) => {
 
   const visibleItems = useMemo(() => filteredItems.slice(0, visibleCount), [filteredItems, visibleCount]);
   const hasMoreItems = visibleCount < filteredItems.length;
-
+  // Adds 4 every time its pressed until it reaches the length of the filteredItems array. If the length of the filteredItems array is less than 4, it will show all the items.
   const handleLoadMore = () => {
     setVisibleCount((prev) => Math.min(prev + 4, filteredItems.length));
   };
@@ -109,7 +79,7 @@ const ExploreItems = ({ apiData = [], loading: loadingProp = false }) => {
 
   return (
     <>
-      <div className="col-md-12 mb-4 d-flex justify-content-end">
+      <div className="col-md-12 mb-4 d-flex justify-content-start">
         <select
           id="filter-items"
           className="form-select"

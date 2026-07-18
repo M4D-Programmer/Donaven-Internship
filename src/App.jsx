@@ -78,7 +78,10 @@ function App() {
             />
           }
         />
-        <Route path="/explore" element={<Explore apiData={apiData.EXPLORE_data} />} />
+        <Route
+          path="/explore"
+          element={<Explore apiData={apiData.EXPLORE_data} loading={loading_api} />}
+        />
         <Route path="/author" element={<Author />} />
         <Route path="/authors" element={<Author />} />
         <Route path="/authors/:authorId" element={<Author />} />
