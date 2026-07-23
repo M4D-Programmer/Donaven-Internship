@@ -7,6 +7,9 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+AOS.init();
 
 function App() {
   // This shared state stores the homepage data fetched once from both APIs.

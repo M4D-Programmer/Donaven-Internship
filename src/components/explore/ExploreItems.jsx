@@ -64,6 +64,9 @@ const ExploreItems = ({ apiData = [], loading: loadingProp = false }) => {
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
             style={{ display: "block", backgroundSize: "cover" }}
           >
+            <br></br>
+            <br></br>
+            <br></br>
             <div className="nft__item">
               <Skeleton width="100%" height="220px" borderRadius="10px" />
               <div className="mt-3">
@@ -97,7 +100,7 @@ const ExploreItems = ({ apiData = [], loading: loadingProp = false }) => {
       </div>
 
       {visibleItems.map((item, index) => (
-        <div
+        <div data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-duration="2000"
           key={item.nftId || item.id || index}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
           style={{ display: "block", backgroundSize: "cover" }}
@@ -109,7 +112,7 @@ const ExploreItems = ({ apiData = [], loading: loadingProp = false }) => {
       {filteredItems.length > 0 && (
         <div className="col-md-12 text-center mt-4">
           {hasMoreItems ? (
-            <button type="button" id="loadmore" className="btn-main lead" onClick={handleLoadMore}>
+            <button data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="2000"type="button" id="loadmore" className="btn-main lead" onClick={handleLoadMore}>
               Load more
             </button>
           ) : (

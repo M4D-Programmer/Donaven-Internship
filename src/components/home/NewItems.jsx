@@ -75,7 +75,7 @@ const NewItems = ({ api_Data, loading }) => {
 
   return (
     <section id="section-items" className="no-bottom">
-      <div className="container">
+      <div data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-duration="1000"className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="text-center">
