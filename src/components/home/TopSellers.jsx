@@ -19,7 +19,7 @@ const TopSellers = ({ api_Data = [], loading }) => {
   if (loading) {
     return (
       <section id="section-popular" className="pb-5">
-        <div className="container">
+        <div data-aos="fade-in" data-aos-easing="ease-in-out" data-aos-duration="1000" className="container">
           <div className="row">
             <div className="col-lg-12">
               <div className="text-center">
