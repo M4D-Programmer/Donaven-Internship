@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Donaven-Internship/static/css/main.8eb9db08.css",
-    "main.js": "/Donaven-Internship/static/js/main.052b117d.js",
+    "main.js": "/Donaven-Internship/static/js/main.dbbc59db.js",
     "static/js/453.25e3bbc3.chunk.js": "/Donaven-Internship/static/js/453.25e3bbc3.chunk.js",
     "static/media/icofont.woff": "/Donaven-Internship/static/media/icofont.dad3accba068281878f1.woff",
     "static/media/icofont.woff2": "/Donaven-Internship/static/media/icofont.9c33516aab48c61e3081.woff2",
@@ -26,11 +26,11 @@
     "index.html": "/Donaven-Internship/index.html",
     "static/media/ethereum.svg": "/Donaven-Internship/static/media/ethereum.df265e367364f285053a1285ad8d418d.svg",
     "main.8eb9db08.css.map": "/Donaven-Internship/static/css/main.8eb9db08.css.map",
-    "main.052b117d.js.map": "/Donaven-Internship/static/js/main.052b117d.js.map",
+    "main.dbbc59db.js.map": "/Donaven-Internship/static/js/main.dbbc59db.js.map",
     "453.25e3bbc3.chunk.js.map": "/Donaven-Internship/static/js/453.25e3bbc3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8eb9db08.css",
-    "static/js/main.052b117d.js"
+    "static/js/main.dbbc59db.js"
   ]
 }
